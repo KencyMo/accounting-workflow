@@ -19,6 +19,51 @@ CORS(app)
 client = Anthropic()
 
 # Database Models
+class ChartOfAccounts(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    account_number = db.Column(db.String(20), unique=True, nullable=False)
+    account_name = db.Column(db.String(120), nullable=False)
+    account_type = db.Column(db.String(50), nullable=False)  # Asset, Liability, Equity, Revenue, Expense
+    description = db.Column(db.Text)
+    balance = db.Column(db.Float, default=0)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    journal_entries = db.relationship('JournalEntry', backref='account', lazy=True)
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'account_number': self.account_number,
+            'account_name': self.account_name,
+            'account_type': self.account_type,
+            'description': self.description,
+            'balance': self.balance,
+            'created_at': self.created_at.isoformat()
+        }
+
+class JournalEntry(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    entry_number = db.Column(db.String(50), unique=True, nullable=False)
+    account_id = db.Column(db.Integer, db.ForeignKey('chart_of_accounts.id'), nullable=False)
+    debit = db.Column(db.Float, default=0)
+    credit = db.Column(db.Float, default=0)
+    description = db.Column(db.Text)
+    reference = db.Column(db.String(100))  # Reference to invoice or transaction
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'entry_number': self.entry_number,
+            'account_id': self.account_id,
+            'account_number': self.account.account_number if self.account else 'Unknown',
+            'account_name': self.account.account_name if self.account else 'Unknown',
+            'debit': self.debit,
+            'credit': self.credit,
+            'description': self.description,
+            'reference': self.reference,
+            'created_at': self.created_at.isoformat()
+        }
+
 class Client(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False)
@@ -88,6 +133,125 @@ class Payment(db.Model):
 def index():
     return render_template('dashboard.html')
 
+# Chart of Accounts Routes
+@app.route('/api/accounts', methods=['GET', 'POST'])
+def accounts():
+    if request.method == 'POST':
+        data = request.json
+        account = ChartOfAccounts(
+            account_number=data['account_number'],
+            account_name=data['account_name'],
+            account_type=data['account_type'],
+            description=data.get('description')
+        )
+        db.session.add(account)
+        db.session.commit()
+        return jsonify(account.to_dict()), 201
+    
+    accounts_list = ChartOfAccounts.query.all()
+    return jsonify([a.to_dict() for a in accounts_list])
+
+@app.route('/api/accounts/<int:account_id>', methods=['GET', 'PUT', 'DELETE'])
+def account_detail(account_id):
+    account = ChartOfAccounts.query.get_or_404(account_id)
+    
+    if request.method == 'GET':
+        return jsonify(account.to_dict())
+    elif request.method == 'PUT':
+        data = request.json
+        account.account_name = data.get('account_name', account.account_name)
+        account.description = data.get('description', account.description)
+        db.session.commit()
+        return jsonify(account.to_dict())
+    elif request.method == 'DELETE':
+        db.session.delete(account)
+        db.session.commit()
+        return '', 204
+
+# Journal Entry Routes
+@app.route('/api/journal-entries', methods=['GET', 'POST'])
+def journal_entries():
+    if request.method == 'POST':
+        data = request.json
+        account = ChartOfAccounts.query.get_or_404(data['account_id'])
+        
+        # Generate entry number
+        last_entry = JournalEntry.query.order_by(JournalEntry.id.desc()).first()
+        entry_number = f"JE{str(last_entry.id + 1 if last_entry else 1).zfill(6)}"
+        
+        entry = JournalEntry(
+            entry_number=entry_number,
+            account_id=data['account_id'],
+            debit=data.get('debit', 0),
+            credit=data.get('credit', 0),
+            description=data.get('description'),
+            reference=data.get('reference')
+        )
+        
+        # Update account balance
+        if entry.debit > 0:
+            account.balance += entry.debit
+        if entry.credit > 0:
+            account.balance -= entry.credit
+        
+        db.session.add(entry)
+        db.session.commit()
+        return jsonify(entry.to_dict()), 201
+    
+    entries_list = JournalEntry.query.all()
+    return jsonify([e.to_dict() for e in entries_list])
+
+@app.route('/api/journal-entries/<int:entry_id>', methods=['GET', 'PUT', 'DELETE'])
+def journal_entry_detail(entry_id):
+    entry = JournalEntry.query.get_or_404(entry_id)
+    
+    if request.method == 'GET':
+        return jsonify(entry.to_dict())
+    elif request.method == 'PUT':
+        data = request.json
+        old_debit = entry.debit
+        old_credit = entry.credit
+        
+        entry.debit = data.get('debit', entry.debit)
+        entry.credit = data.get('credit', entry.credit)
+        entry.description = data.get('description', entry.description)
+        
+        # Adjust account balance
+        account = entry.account
+        account.balance -= old_debit
+        account.balance += old_credit
+        account.balance += entry.debit
+        account.balance -= entry.credit
+        
+        db.session.commit()
+        return jsonify(entry.to_dict())
+    elif request.method == 'DELETE':
+        account = entry.account
+        account.balance -= entry.debit
+        account.balance += entry.credit
+        db.session.delete(entry)
+        db.session.commit()
+        return '', 204
+
+@app.route('/api/accounts/<int:account_id>/journal-entries', methods=['GET'])
+def account_journal_entries(account_id):
+    entries = JournalEntry.query.filter_by(account_id=account_id).all()
+    return jsonify([e.to_dict() for e in entries])
+
+# General Ledger Route
+@app.route('/api/general-ledger')
+def general_ledger():
+    accounts_list = ChartOfAccounts.query.all()
+    ledger = []
+    
+    for account in accounts_list:
+        account_data = account.to_dict()
+        account_data['entries'] = [e.to_dict() for e in account.journal_entries]
+        ledger.append(account_data)
+    
+    return jsonify(ledger)
+
+# Client Routes
 @app.route('/api/clients', methods=['GET', 'POST'])
 def clients():
     if request.method == 'POST':
@@ -124,6 +288,7 @@ def client_detail(client_id):
         db.session.commit()
         return '', 204
 
+# Invoice Routes
 @app.route('/api/invoices', methods=['GET', 'POST'])
 def invoices():
     if request.method == 'POST':
@@ -160,6 +325,7 @@ def invoice_detail(invoice_id):
         db.session.commit()
         return '', 204
 
+# Payment Routes
 @app.route('/api/payments', methods=['POST'])
 def create_payment():
     data = request.json
@@ -193,6 +359,7 @@ def invoice_payments(invoice_id):
     payments = Payment.query.filter_by(invoice_id=invoice_id).all()
     return jsonify([p.to_dict() for p in payments])
 
+# Dashboard Route
 @app.route('/api/dashboard')
 def dashboard():
     invoices_list = Invoice.query.all()
@@ -201,15 +368,23 @@ def dashboard():
     total_unpaid = total_revenue - total_paid
     unpaid_invoices = len([i for i in invoices_list if i.status in ['unpaid', 'partially_paid']])
     
+    accounts_list = ChartOfAccounts.query.all()
+    total_assets = sum(a.balance for a in accounts_list if a.account_type == 'Asset')
+    total_liabilities = sum(a.balance for a in accounts_list if a.account_type == 'Liability')
+    
     return jsonify({
         'total_revenue': total_revenue,
         'total_paid': total_paid,
         'total_unpaid': total_unpaid,
         'unpaid_invoices': unpaid_invoices,
         'total_clients': Client.query.count(),
-        'total_invoices': len(invoices_list)
+        'total_invoices': len(invoices_list),
+        'total_accounts': len(accounts_list),
+        'total_assets': total_assets,
+        'total_liabilities': total_liabilities
     })
 
+# Chat Route
 @app.route('/api/chat', methods=['POST'])
 def chat():
     data = request.json
@@ -221,9 +396,17 @@ def chat():
     # Get context from database
     invoices_list = Invoice.query.all()
     clients_list = Client.query.all()
+    accounts_list = ChartOfAccounts.query.all()
+    entries_list = JournalEntry.query.all()
     
     context = f"""
     You are an accounting assistant. You have access to the following data:
+    
+    Chart of Accounts:
+    {json.dumps([a.to_dict() for a in accounts_list], indent=2)}
+    
+    Journal Entries:
+    {json.dumps([e.to_dict() for e in entries_list], indent=2)}
     
     Invoices:
     {json.dumps([i.to_dict() for i in invoices_list], indent=2)}
