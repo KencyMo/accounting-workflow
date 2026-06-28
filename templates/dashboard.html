@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Accounting Workflow</title>
+    <title>Professional Accounting Software</title>
     <style>
         * {
             margin: 0;
@@ -19,7 +19,7 @@
         }
 
         .container {
-            max-width: 1400px;
+            max-width: 1600px;
             margin: 0 auto;
         }
 
@@ -33,23 +33,30 @@
 
         h1 {
             color: #333;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            color: #999;
+            font-size: 14px;
+            margin-bottom: 20px;
         }
 
         .nav-tabs {
             display: flex;
-            gap: 10px;
+            gap: 5px;
             margin-top: 20px;
             border-bottom: 2px solid #eee;
             overflow-x: auto;
+            flex-wrap: wrap;
         }
 
         .nav-tabs button {
-            padding: 12px 20px;
+            padding: 12px 16px;
             border: none;
             background: none;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 14px;
             color: #666;
             border-bottom: 3px solid transparent;
             transition: all 0.3s;
@@ -59,6 +66,7 @@
         .nav-tabs button.active {
             color: #667eea;
             border-bottom-color: #667eea;
+            font-weight: 600;
         }
 
         .nav-tabs button:hover {
@@ -67,27 +75,28 @@
 
         .dashboard-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
             margin-bottom: 30px;
         }
 
         .card {
             background: white;
-            padding: 25px;
+            padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .card h3 {
             color: #999;
-            font-size: 14px;
+            font-size: 12px;
             text-transform: uppercase;
             margin-bottom: 10px;
+            letter-spacing: 0.5px;
         }
 
         .card .value {
-            font-size: 28px;
+            font-size: 24px;
             font-weight: bold;
             color: #333;
         }
@@ -128,6 +137,7 @@
             margin-bottom: 5px;
             color: #333;
             font-weight: 500;
+            font-size: 14px;
         }
 
         input, textarea, select {
@@ -157,7 +167,8 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 14px;
+            font-weight: 600;
             transition: all 0.3s;
         }
 
@@ -169,6 +180,8 @@
 
         button.secondary {
             background: #6c757d;
+            padding: 8px 16px;
+            font-size: 13px;
         }
 
         button.secondary:hover {
@@ -183,12 +196,12 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 14px;
+            font-size: 13px;
         }
 
         th {
             background: #f8f9fa;
-            padding: 15px;
+            padding: 12px 15px;
             text-align: left;
             color: #333;
             font-weight: 600;
@@ -196,7 +209,7 @@
         }
 
         td {
-            padding: 12px 15px;
+            padding: 10px 15px;
             border-bottom: 1px solid #eee;
         }
 
@@ -204,27 +217,26 @@
             background: #f8f9fa;
         }
 
+        .text-right {
+            text-align: right;
+            font-weight: 600;
+        }
+
+        .text-bold {
+            font-weight: 700;
+            background: #f0f0f0;
+        }
+
+        .balance-sheet-row {
+            border-bottom: 1px solid #ddd;
+        }
+
         .badge {
             display: inline-block;
             padding: 5px 12px;
             border-radius: 20px;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 600;
-        }
-
-        .badge.paid {
-            background: #d4edda;
-            color: #155724;
-        }
-
-        .badge.unpaid {
-            background: #f8d7da;
-            color: #721c24;
-        }
-
-        .badge.partially-paid {
-            background: #fff3cd;
-            color: #856404;
         }
 
         .badge.asset {
@@ -252,55 +264,63 @@
             color: #9c0006;
         }
 
-        .chat-container {
-            display: flex;
-            flex-direction: column;
-            height: 500px;
+        .badge.paid {
+            background: #d4edda;
+            color: #155724;
         }
 
-        .chat-messages {
-            flex: 1;
-            overflow-y: auto;
+        .badge.unpaid {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .badge.success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .badge.error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .financial-statement {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f9f9f9;
+            border: 1px solid #eee;
+        }
+
+        .financial-statement h3 {
+            text-align: center;
             margin-bottom: 20px;
+            font-size: 18px;
+        }
+
+        .statement-total {
+            font-weight: 700;
+            border-top: 2px solid #333;
+            border-bottom: 3px solid #333;
+            padding: 10px 0;
+            margin: 10px 0;
+        }
+
+        .info-box {
+            background: #f0f7ff;
             padding: 15px;
-            background: #f8f9fa;
             border-radius: 5px;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
         }
 
-        .message {
-            margin-bottom: 15px;
-            display: flex;
-            gap: 10px;
+        .info-box.warning {
+            background: #fff8f0;
+            border-left-color: #ffc107;
         }
 
-        .message.user {
-            justify-content: flex-end;
-        }
-
-        .message-content {
-            max-width: 70%;
-            padding: 10px 15px;
-            border-radius: 10px;
-            line-height: 1.4;
-        }
-
-        .message.user .message-content {
-            background: #667eea;
-            color: white;
-        }
-
-        .message.assistant .message-content {
-            background: #e9ecef;
-            color: #333;
-        }
-
-        .chat-input-group {
-            display: flex;
-            gap: 10px;
-        }
-
-        .chat-input-group input {
-            flex: 1;
+        .info-box.error {
+            background: #fff0f0;
+            border-left-color: #dc3545;
         }
 
         .modal {
@@ -356,39 +376,38 @@
             flex: 1;
         }
 
-        .double-column {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
         h2 {
             margin-bottom: 20px;
             color: #333;
+            font-size: 20px;
         }
 
-        .info-box {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 5px;
+        .export-btn {
+            background: #28a745;
             margin-bottom: 20px;
-            border-left: 4px solid #667eea;
+        }
+
+        .export-btn:hover {
+            background: #218838;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>💼 Accounting Workflow</h1>
-            <p>Complete accounting system with Chart of Accounts, Journal Entries, and AI assistance</p>
+            <h1>📊 Professional Accounting Software</h1>
+            <p class="subtitle">Complete bookkeeping & accounting system with Trial Balance, Financial Statements & AI assistance</p>
             <div class="nav-tabs">
-                <button class="active" onclick="switchTab('dashboard')">📊 Dashboard</button>
+                <button class="active" onclick="switchTab('dashboard')">📈 Dashboard</button>
+                <button onclick="switchTab('trial-balance')">⚖️ Trial Balance</button>
+                <button onclick="switchTab('income-statement')">📊 Income Statement</button>
+                <button onclick="switchTab('balance-sheet')">📋 Balance Sheet</button>
                 <button onclick="switchTab('accounts')">📚 Chart of Accounts</button>
                 <button onclick="switchTab('journal')">📖 Journal Entries</button>
-                <button onclick="switchTab('ledger')">📋 General Ledger</button>
+                <button onclick="switchTab('ledger')">📑 General Ledger</button>
                 <button onclick="switchTab('invoices')">📄 Invoices</button>
                 <button onclick="switchTab('clients')">👥 Clients</button>
-                <button onclick="switchTab('chat')">🤖 Claude Assistant</button>
+                <button onclick="switchTab('chat')">🤖 Assistant</button>
             </div>
         </header>
 
@@ -407,10 +426,6 @@
                     <h3>Outstanding</h3>
                     <div class="value">$<span id="totalUnpaid">0</span></div>
                 </div>
-                <div class="card warning">
-                    <h3>Unpaid Invoices</h3>
-                    <div class="value"><span id="unpaidCount">0</span></div>
-                </div>
                 <div class="card">
                     <h3>Total Assets</h3>
                     <div class="value">$<span id="totalAssets">0</span></div>
@@ -420,22 +435,18 @@
                     <div class="value">$<span id="totalLiabilities">0</span></div>
                 </div>
                 <div class="card">
-                    <h3>Total Accounts</h3>
+                    <h3>Accounts</h3>
                     <div class="value"><span id="totalAccounts">0</span></div>
-                </div>
-                <div class="card">
-                    <h3>Total Clients</h3>
-                    <div class="value"><span id="clientCount">0</span></div>
                 </div>
             </div>
         </div>
 
-        <!-- Chart of Accounts Section -->
-        <div id="accounts" class="section">
+        <!-- Trial Balance Section -->
+        <div id="trial-balance" class="section">
             <div class="content">
-                <h2>📚 Chart of Accounts</h2>
-                <button onclick="openAccountModal()" style="margin-top: 20px; margin-bottom: 20px;">➕ Add New Account</button>
-                
+                <h2>⚖️ Trial Balance</h2>
+                <button class="export-btn" onclick="exportTrialBalance()">📥 Export as CSV</button>
+                <div id="trialBalanceInfo"></div>
                 <div class="table-container">
                     <table>
                         <thead>
@@ -443,13 +454,61 @@
                                 <th>Account #</th>
                                 <th>Account Name</th>
                                 <th>Type</th>
-                                <th>Balance</th>
+                                <th class="text-right">Debit</th>
+                                <th class="text-right">Credit</th>
+                            </tr>
+                        </thead>
+                        <tbody id="trialBalanceTable">
+                        </tbody>
+                        <tfoot>
+                            <tr class="text-bold">
+                                <td colspan="3">TOTALS</td>
+                                <td class="text-right" id="totalDebits">$0.00</td>
+                                <td class="text-right" id="totalCredits">$0.00</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Income Statement Section -->
+        <div id="income-statement" class="section">
+            <div class="content">
+                <h2>📊 Income Statement</h2>
+                <button class="export-btn" onclick="exportIncomeStatement()">📥 Export as CSV</button>
+                <div id="incomeStatementContent"></div>
+            </div>
+        </div>
+
+        <!-- Balance Sheet Section -->
+        <div id="balance-sheet" class="section">
+            <div class="content">
+                <h2>📋 Balance Sheet</h2>
+                <button class="export-btn" onclick="exportBalanceSheet()">📥 Export as CSV</button>
+                <div id="balanceSheetInfo"></div>
+                <div id="balanceSheetContent"></div>
+            </div>
+        </div>
+
+        <!-- Chart of Accounts Section -->
+        <div id="accounts" class="section">
+            <div class="content">
+                <h2>📚 Chart of Accounts</h2>
+                <button onclick="openAccountModal()" style="margin-bottom: 20px;">➕ Add Account</button>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Account #</th>
+                                <th>Account Name</th>
+                                <th>Type</th>
+                                <th class="text-right">Balance</th>
                                 <th>Description</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
-                        <tbody id="accountTable">
-                        </tbody>
+                        <tbody id="accountTable"></tbody>
                     </table>
                 </div>
             </div>
@@ -459,8 +518,7 @@
         <div id="journal" class="section">
             <div class="content">
                 <h2>📖 Journal Entries</h2>
-                <button onclick="openJournalModal()" style="margin-top: 20px; margin-bottom: 20px;">➕ New Journal Entry</button>
-                
+                <button onclick="openJournalModal()" style="margin-bottom: 20px;">➕ New Entry</button>
                 <div class="table-container">
                     <table>
                         <thead>
@@ -468,15 +526,13 @@
                                 <th>Entry #</th>
                                 <th>Account #</th>
                                 <th>Account Name</th>
-                                <th>Debit</th>
-                                <th>Credit</th>
+                                <th class="text-right">Debit</th>
+                                <th class="text-right">Credit</th>
                                 <th>Description</th>
-                                <th>Reference</th>
                                 <th>Date</th>
                             </tr>
                         </thead>
-                        <tbody id="journalTable">
-                        </tbody>
+                        <tbody id="journalTable"></tbody>
                     </table>
                 </div>
             </div>
@@ -485,7 +541,7 @@
         <!-- General Ledger Section -->
         <div id="ledger" class="section">
             <div class="content">
-                <h2>📋 General Ledger</h2>
+                <h2>📑 General Ledger</h2>
                 <div id="ledgerContent"></div>
             </div>
         </div>
@@ -493,24 +549,22 @@
         <!-- Invoices Section -->
         <div id="invoices" class="section">
             <div class="content">
-                <h2>📄 Manage Invoices</h2>
-                <button onclick="openInvoiceModal()" style="margin-top: 20px; margin-bottom: 20px;">➕ Create New Invoice</button>
-                
+                <h2>📄 Invoices</h2>
+                <button onclick="openInvoiceModal()" style="margin-bottom: 20px;">➕ Create Invoice</button>
                 <div class="table-container">
                     <table>
                         <thead>
                             <tr>
                                 <th>Invoice #</th>
                                 <th>Client</th>
-                                <th>Amount</th>
-                                <th>Paid</th>
+                                <th class="text-right">Amount</th>
+                                <th class="text-right">Paid</th>
                                 <th>Status</th>
                                 <th>Due Date</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
-                        <tbody id="invoiceTable">
-                        </tbody>
+                        <tbody id="invoiceTable"></tbody>
                     </table>
                 </div>
             </div>
@@ -519,9 +573,8 @@
         <!-- Clients Section -->
         <div id="clients" class="section">
             <div class="content">
-                <h2>👥 Manage Clients</h2>
-                <button onclick="openClientModal()" style="margin-top: 20px; margin-bottom: 20px;">➕ Add New Client</button>
-                
+                <h2>👥 Clients</h2>
+                <button onclick="openClientModal()" style="margin-bottom: 20px;">➕ Add Client</button>
                 <div class="table-container">
                     <table>
                         <thead>
@@ -533,8 +586,7 @@
                                 <th>Actions</th>
                             </tr>
                         </thead>
-                        <tbody id="clientTable">
-                        </tbody>
+                        <tbody id="clientTable"></tbody>
                     </table>
                 </div>
             </div>
@@ -543,12 +595,12 @@
         <!-- Chat Section -->
         <div id="chat" class="section">
             <div class="content">
-                <h2>🤖 Claude Assistant</h2>
-                <p style="color: #999; margin-bottom: 20px;">Ask questions about your accounting, accounts, and finances</p>
-                <div class="chat-container">
-                    <div class="chat-messages" id="chatMessages"></div>
-                    <div class="chat-input-group">
-                        <input type="text" id="chatInput" placeholder="Ask me anything about your accounting..." />
+                <h2>🤖 AI Accounting Assistant</h2>
+                <p style="color: #999; margin-bottom: 20px; font-size: 14px;">Ask questions about your accounting, finances, and reports</p>
+                <div style="display: flex; flex-direction: column; height: 500px;">
+                    <div style="flex: 1; overflow-y: auto; margin-bottom: 20px; padding: 15px; background: #f8f9fa; border-radius: 5px;" id="chatMessages"></div>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="text" id="chatInput" placeholder="Ask anything..." style="flex: 1;" />
                         <button onclick="sendChatMessage()">Send</button>
                     </div>
                 </div>
@@ -556,7 +608,7 @@
         </div>
     </div>
 
-    <!-- Account Modal -->
+    <!-- Modals (Account, Journal, Invoice, Client, Payment) -->
     <div id="accountModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -595,7 +647,6 @@
         </div>
     </div>
 
-    <!-- Journal Entry Modal -->
     <div id="journalModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -609,7 +660,7 @@
                         <option value="">Select Account</option>
                     </select>
                 </div>
-                <div class="double-column">
+                <div class="form-row">
                     <div class="form-group">
                         <label>Debit ($)</label>
                         <input type="number" id="journalDebit" step="0.01" min="0">
@@ -635,11 +686,10 @@
         </div>
     </div>
 
-    <!-- Invoice Modal -->
     <div id="invoiceModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>Create New Invoice</h2>
+                <h2>Create Invoice</h2>
                 <button class="close-btn" onclick="closeInvoiceModal()">&times;</button>
             </div>
             <form onsubmit="saveInvoice(event)">
@@ -659,7 +709,7 @@
                 </div>
                 <div class="form-group">
                     <label>Description</label>
-                    <textarea id="invoiceDescription" rows="4"></textarea>
+                    <textarea id="invoiceDescription" rows="3"></textarea>
                 </div>
                 <div class="form-group">
                     <label>Due Date</label>
@@ -673,11 +723,10 @@
         </div>
     </div>
 
-    <!-- Client Modal -->
     <div id="clientModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>Add New Client</h2>
+                <h2>Add Client</h2>
                 <button class="close-btn" onclick="closeClientModal()">&times;</button>
             </div>
             <form onsubmit="saveClient(event)">
@@ -705,7 +754,6 @@
         </div>
     </div>
 
-    <!-- Payment Modal -->
     <div id="paymentModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -741,520 +789,420 @@
     <script>
         let currentInvoiceId = null;
 
-        // Tab switching
         function switchTab(tabName) {
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
             document.getElementById(tabName).classList.add('active');
             document.querySelectorAll('.nav-tabs button').forEach(b => b.classList.remove('active'));
             event.target.classList.add('active');
 
-            if (tabName === 'dashboard') {
-                loadDashboard();
-            } else if (tabName === 'accounts') {
-                loadAccounts();
-            } else if (tabName === 'journal') {
-                loadJournalEntries();
-            } else if (tabName === 'ledger') {
-                loadGeneralLedger();
-            } else if (tabName === 'invoices') {
-                loadInvoices();
-            } else if (tabName === 'clients') {
-                loadClients();
-            }
+            if (tabName === 'dashboard') loadDashboard();
+            else if (tabName === 'trial-balance') loadTrialBalance();
+            else if (tabName === 'income-statement') loadIncomeStatement();
+            else if (tabName === 'balance-sheet') loadBalanceSheet();
+            else if (tabName === 'accounts') loadAccounts();
+            else if (tabName === 'journal') loadJournalEntries();
+            else if (tabName === 'ledger') loadGeneralLedger();
+            else if (tabName === 'invoices') loadInvoices();
+            else if (tabName === 'clients') loadClients();
         }
 
-        // Load dashboard
         async function loadDashboard() {
-            try {
-                const response = await fetch('/api/dashboard');
-                const data = await response.json();
-                document.getElementById('totalRevenue').textContent = data.total_revenue.toFixed(2);
-                document.getElementById('totalPaid').textContent = data.total_paid.toFixed(2);
-                document.getElementById('totalUnpaid').textContent = data.total_unpaid.toFixed(2);
-                document.getElementById('unpaidCount').textContent = data.unpaid_invoices;
-                document.getElementById('totalAssets').textContent = data.total_assets.toFixed(2);
-                document.getElementById('totalLiabilities').textContent = data.total_liabilities.toFixed(2);
-                document.getElementById('totalAccounts').textContent = data.total_accounts;
-                document.getElementById('clientCount').textContent = data.total_clients;
-            } catch (error) {
-                console.error('Error loading dashboard:', error);
-            }
+            const response = await fetch('/api/dashboard');
+            const data = await response.json();
+            document.getElementById('totalRevenue').textContent = data.total_revenue.toFixed(2);
+            document.getElementById('totalPaid').textContent = data.total_paid.toFixed(2);
+            document.getElementById('totalUnpaid').textContent = data.total_unpaid.toFixed(2);
+            document.getElementById('totalAssets').textContent = data.total_assets.toFixed(2);
+            document.getElementById('totalLiabilities').textContent = data.total_liabilities.toFixed(2);
+            document.getElementById('totalAccounts').textContent = data.total_accounts;
         }
 
-        // Load accounts
+        async function loadTrialBalance() {
+            const response = await fetch('/api/trial-balance');
+            const data = await response.json();
+            const tbody = document.getElementById('trialBalanceTable');
+            tbody.innerHTML = '';
+            
+            data.accounts.forEach(account => {
+                const typeBadge = `<span class="badge ${account.account_type.toLowerCase()}">${account.account_type}</span>`;
+                const row = `
+                    <tr>
+                        <td>${account.account_number}</td>
+                        <td>${account.account_name}</td>
+                        <td>${typeBadge}</td>
+                        <td class="text-right">$${account.debit.toFixed(2)}</td>
+                        <td class="text-right">$${account.credit.toFixed(2)}</td>
+                    </tr>
+                `;
+                tbody.innerHTML += row;
+            });
+            
+            document.getElementById('totalDebits').textContent = `$${data.total_debits.toFixed(2)}`;
+            document.getElementById('totalCredits').textContent = `$${data.total_credits.toFixed(2)}`;
+            
+            const balanceStatus = data.is_balanced ? 
+                '<div class="info-box"><strong>✓ Trial Balance is Balanced</strong></div>' :
+                '<div class="info-box error"><strong>✗ Trial Balance is NOT Balanced</strong> - Debits and credits do not match</div>';
+            document.getElementById('trialBalanceInfo').innerHTML = balanceStatus;
+        }
+
+        async function loadIncomeStatement() {
+            const response = await fetch('/api/income-statement');
+            const data = await response.json();
+            
+            let html = '<div class="financial-statement"><h3>Income Statement</h3>';
+            html += '<table style="width: 100%;"><tr><td>REVENUES:</td></tr>';
+            
+            data.revenue_accounts.forEach(acc => {
+                html += `<tr><td>&nbsp;&nbsp;&nbsp;${acc.account_name}</td><td style="text-align: right;">$${acc.balance.toFixed(2)}</td></tr>`;
+            });
+            
+            html += `<tr class="statement-total"><td>Total Revenues</td><td style="text-align: right;">$${data.total_revenue.toFixed(2)}</td></tr>`;
+            html += '<tr><td>EXPENSES:</td></tr>';
+            
+            data.expense_accounts.forEach(acc => {
+                html += `<tr><td>&nbsp;&nbsp;&nbsp;${acc.account_name}</td><td style="text-align: right;">$${acc.balance.toFixed(2)}</td></tr>`;
+            });
+            
+            html += `<tr class="statement-total"><td>Total Expenses</td><td style="text-align: right;">$${data.total_expenses.toFixed(2)}</td></tr>`;
+            html += `<tr style="font-weight: 700; font-size: 16px; border-top: 3px solid #333;"><td>NET INCOME</td><td style="text-align: right;">$${data.net_income.toFixed(2)}</td></tr>`;
+            html += '</table></div>';
+            
+            document.getElementById('incomeStatementContent').innerHTML = html;
+        }
+
+        async function loadBalanceSheet() {
+            const response = await fetch('/api/balance-sheet');
+            const data = await response.json();
+            
+            let html = '<div class="financial-statement"><h3>Balance Sheet</h3>';
+            html += '<table style="width: 100%;"><tr><td colspan="2"><strong>ASSETS</strong></td></tr>';
+            
+            data.assets.forEach(acc => {
+                html += `<tr><td>&nbsp;&nbsp;&nbsp;${acc.account_name}</td><td style="text-align: right;">$${Math.abs(acc.balance).toFixed(2)}</td></tr>`;
+            });
+            
+            html += `<tr class="statement-total"><td>Total Assets</td><td style="text-align: right;">$${data.total_assets.toFixed(2)}</td></tr>`;
+            html += '<tr><td colspan="2"><strong>LIABILITIES & EQUITY</strong></td></tr>';
+            html += '<tr><td><strong>Liabilities</strong></td></tr>';
+            
+            data.liabilities.forEach(acc => {
+                html += `<tr><td>&nbsp;&nbsp;&nbsp;${acc.account_name}</td><td style="text-align: right;">$${Math.abs(acc.balance).toFixed(2)}</td></tr>`;
+            });
+            
+            html += `<tr><td>&nbsp;&nbsp;&nbsp;<strong>Total Liabilities</strong></td><td style="text-align: right;">$${data.total_liabilities.toFixed(2)}</td></tr>`;
+            html += '<tr><td><strong>Equity</strong></td></tr>';
+            
+            data.equity.forEach(acc => {
+                html += `<tr><td>&nbsp;&nbsp;&nbsp;${acc.account_name}</td><td style="text-align: right;">$${Math.abs(acc.balance).toFixed(2)}</td></tr>`;
+            });
+            
+            html += `<tr><td>&nbsp;&nbsp;&nbsp;<strong>Total Equity</strong></td><td style="text-align: right;">$${data.total_equity.toFixed(2)}</td></tr>`;
+            html += `<tr class="statement-total"><td>Total Liabilities & Equity</td><td style="text-align: right;">$${(data.total_liabilities + data.total_equity).toFixed(2)}</td></tr>`;
+            html += '</table></div>';
+            
+            const balanceStatus = data.is_balanced ? 
+                '<div class="info-box"><strong>✓ Balance Sheet is Balanced</strong> - Assets = Liabilities + Equity</div>' :
+                '<div class="info-box error"><strong>✗ Balance Sheet is NOT Balanced</strong></div>';
+            
+            document.getElementById('balanceSheetInfo').innerHTML = balanceStatus;
+            document.getElementById('balanceSheetContent').innerHTML = html;
+        }
+
         async function loadAccounts() {
-            try {
-                const response = await fetch('/api/accounts');
-                const accounts = await response.json();
-                const tbody = document.getElementById('accountTable');
-                tbody.innerHTML = '';
-                
-                accounts.forEach(account => {
-                    const typeBadge = `<span class="badge ${account.account_type.toLowerCase()}">${account.account_type}</span>`;
-                    const row = `
-                        <tr>
-                            <td><strong>${account.account_number}</strong></td>
-                            <td>${account.account_name}</td>
-                            <td>${typeBadge}</td>
-                            <td>$${account.balance.toFixed(2)}</td>
-                            <td>${account.description || '-'}</td>
-                            <td>
-                                <button class="secondary" onclick="deleteAccount(${account.id})" style="padding: 5px 10px; font-size: 12px;">Delete</button>
-                            </td>
-                        </tr>
-                    `;
-                    tbody.innerHTML += row;
-                });
-            } catch (error) {
-                console.error('Error loading accounts:', error);
-            }
+            const response = await fetch('/api/accounts');
+            const accounts = await response.json();
+            const tbody = document.getElementById('accountTable');
+            tbody.innerHTML = '';
+            
+            accounts.forEach(account => {
+                const typeBadge = `<span class="badge ${account.account_type.toLowerCase()}">${account.account_type}</span>`;
+                const row = `
+                    <tr>
+                        <td><strong>${account.account_number}</strong></td>
+                        <td>${account.account_name}</td>
+                        <td>${typeBadge}</td>
+                        <td class="text-right">$${account.balance.toFixed(2)}</td>
+                        <td>${account.description || '-'}</td>
+                        <td><button class="secondary" onclick="deleteAccount(${account.id})" style="padding: 6px 10px;">Delete</button></td>
+                    </tr>
+                `;
+                tbody.innerHTML += row;
+            });
         }
 
-        // Load journal entries
         async function loadJournalEntries() {
-            try {
-                const response = await fetch('/api/journal-entries');
-                const entries = await response.json();
-                const tbody = document.getElementById('journalTable');
-                tbody.innerHTML = '';
+            const response = await fetch('/api/journal-entries');
+            const entries = await response.json();
+            const tbody = document.getElementById('journalTable');
+            tbody.innerHTML = '';
+            
+            entries.forEach(entry => {
+                const row = `
+                    <tr>
+                        <td><strong>${entry.entry_number}</strong></td>
+                        <td>${entry.account_number}</td>
+                        <td>${entry.account_name}</td>
+                        <td class="text-right">$${entry.debit.toFixed(2)}</td>
+                        <td class="text-right">$${entry.credit.toFixed(2)}</td>
+                        <td>${entry.description || '-'}</td>
+                        <td>${new Date(entry.created_at).toLocaleDateString()}</td>
+                    </tr>
+                `;
+                tbody.innerHTML += row;
+            });
+        }
+
+        async function loadGeneralLedger() {
+            const response = await fetch('/api/general-ledger');
+            const ledger = await response.json();
+            let html = '';
+            
+            ledger.forEach(account => {
+                html += `
+                    <div class="info-box" style="margin-bottom: 20px;">
+                        <h3>${account.account_number} - ${account.account_name}</h3>
+                        <p><strong>Type:</strong> ${account.account_type} | <strong>Balance:</strong> $${account.balance.toFixed(2)}</p>
+                    </div>
+                    <div class="table-container">
+                        <table style="margin-bottom: 30px; font-size: 12px;">
+                            <thead>
+                                <tr>
+                                    <th>Entry #</th>
+                                    <th class="text-right">Debit</th>
+                                    <th class="text-right">Credit</th>
+                                    <th>Description</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                `;
                 
-                entries.forEach(entry => {
-                    const row = `
+                account.entries.forEach(entry => {
+                    html += `
                         <tr>
-                            <td><strong>${entry.entry_number}</strong></td>
-                            <td>${entry.account_number}</td>
-                            <td>${entry.account_name}</td>
-                            <td>$${entry.debit.toFixed(2)}</td>
-                            <td>$${entry.credit.toFixed(2)}</td>
+                            <td>${entry.entry_number}</td>
+                            <td class="text-right">$${entry.debit.toFixed(2)}</td>
+                            <td class="text-right">$${entry.credit.toFixed(2)}</td>
                             <td>${entry.description || '-'}</td>
-                            <td>${entry.reference || '-'}</td>
                             <td>${new Date(entry.created_at).toLocaleDateString()}</td>
                         </tr>
                     `;
-                    tbody.innerHTML += row;
-                });
-            } catch (error) {
-                console.error('Error loading journal entries:', error);
-            }
-        }
-
-        // Load general ledger
-        async function loadGeneralLedger() {
-            try {
-                const response = await fetch('/api/general-ledger');
-                const ledger = await response.json();
-                let html = '';
-                
-                ledger.forEach(account => {
-                    html += `
-                        <div class="info-box" style="border-left-color: #667eea;">
-                            <h3>${account.account_number} - ${account.account_name}</h3>
-                            <p><strong>Type:</strong> ${account.account_type} | <strong>Balance:</strong> $${account.balance.toFixed(2)}</p>
-                        </div>
-                        <div class="table-container">
-                            <table style="margin-bottom: 30px;">
-                                <thead>
-                                    <tr>
-                                        <th>Entry #</th>
-                                        <th>Debit</th>
-                                        <th>Credit</th>
-                                        <th>Description</th>
-                                        <th>Reference</th>
-                                        <th>Date</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                    `;
-                    
-                    account.entries.forEach(entry => {
-                        html += `
-                            <tr>
-                                <td>${entry.entry_number}</td>
-                                <td>$${entry.debit.toFixed(2)}</td>
-                                <td>$${entry.credit.toFixed(2)}</td>
-                                <td>${entry.description || '-'}</td>
-                                <td>${entry.reference || '-'}</td>
-                                <td>${new Date(entry.created_at).toLocaleDateString()}</td>
-                            </tr>
-                        `;
-                    });
-                    
-                    html += `</tbody></table></div>`;
                 });
                 
-                document.getElementById('ledgerContent').innerHTML = html || '<p style="text-align: center; color: #999;">No accounts found. Create accounts first.</p>';
-            } catch (error) {
-                console.error('Error loading general ledger:', error);
-            }
+                html += `</tbody></table></div>`;
+            });
+            
+            document.getElementById('ledgerContent').innerHTML = html || '<p style="text-align: center; color: #999;">No accounts found.</p>';
         }
 
-        // Load invoices
         async function loadInvoices() {
-            try {
-                const response = await fetch('/api/invoices');
-                const invoices = await response.json();
-                const tbody = document.getElementById('invoiceTable');
-                tbody.innerHTML = '';
-                
-                invoices.forEach(invoice => {
-                    const statusBadge = `<span class="badge ${invoice.status.replace('_', '-')}">${invoice.status}</span>`;
-                    const row = `
-                        <tr>
-                            <td>${invoice.invoice_number}</td>
-                            <td>${invoice.client_name}</td>
-                            <td>$${invoice.amount.toFixed(2)}</td>
-                            <td>$${invoice.amount_paid.toFixed(2)}</td>
-                            <td>${statusBadge}</td>
-                            <td>${invoice.due_date ? new Date(invoice.due_date).toLocaleDateString() : '-'}</td>
-                            <td>
-                                <button class="secondary" onclick="openPaymentModal(${invoice.id})" style="padding: 5px 10px; font-size: 12px;">Record Payment</button>
-                            </td>
-                        </tr>
-                    `;
-                    tbody.innerHTML += row;
-                });
-            } catch (error) {
-                console.error('Error loading invoices:', error);
-            }
+            const response = await fetch('/api/invoices');
+            const invoices = await response.json();
+            const tbody = document.getElementById('invoiceTable');
+            tbody.innerHTML = '';
+            
+            invoices.forEach(invoice => {
+                const statusBadge = `<span class="badge ${invoice.status.replace('_', '-')}">${invoice.status}</span>`;
+                const row = `
+                    <tr>
+                        <td>${invoice.invoice_number}</td>
+                        <td>${invoice.client_name}</td>
+                        <td class="text-right">$${invoice.amount.toFixed(2)}</td>
+                        <td class="text-right">$${invoice.amount_paid.toFixed(2)}</td>
+                        <td>${statusBadge}</td>
+                        <td>${invoice.due_date ? new Date(invoice.due_date).toLocaleDateString() : '-'}</td>
+                        <td><button class="secondary" onclick="openPaymentModal(${invoice.id})" style="padding: 6px 10px;">Record Payment</button></td>
+                    </tr>
+                `;
+                tbody.innerHTML += row;
+            });
         }
 
-        // Load clients
         async function loadClients() {
-            try {
-                const response = await fetch('/api/clients');
-                const clients = await response.json();
-                const tbody = document.getElementById('clientTable');
-                tbody.innerHTML = '';
-                
-                clients.forEach(client => {
-                    const row = `
-                        <tr>
-                            <td>${client.name}</td>
-                            <td>${client.email || '-'}</td>
-                            <td>${client.phone || '-'}</td>
-                            <td>${client.address || '-'}</td>
-                            <td>
-                                <button class="secondary" onclick="deleteClient(${client.id})" style="padding: 5px 10px; font-size: 12px;">Delete</button>
-                            </td>
-                        </tr>
-                    `;
-                    tbody.innerHTML += row;
-                });
-            } catch (error) {
-                console.error('Error loading clients:', error);
-            }
+            const response = await fetch('/api/clients');
+            const clients = await response.json();
+            const tbody = document.getElementById('clientTable');
+            tbody.innerHTML = '';
+            
+            clients.forEach(client => {
+                const row = `
+                    <tr>
+                        <td>${client.name}</td>
+                        <td>${client.email || '-'}</td>
+                        <td>${client.phone || '-'}</td>
+                        <td>${client.address || '-'}</td>
+                        <td><button class="secondary" onclick="deleteClient(${client.id})" style="padding: 6px 10px;">Delete</button></td>
+                    </tr>
+                `;
+                tbody.innerHTML += row;
+            });
         }
 
-        // Load accounts for selects
         async function loadAccountsSelect() {
-            try {
-                const response = await fetch('/api/accounts');
-                const accounts = await response.json();
-                const select = document.getElementById('journalAccountSelect');
-                select.innerHTML = '<option value="">Select Account</option>';
-                accounts.forEach(account => {
-                    const option = document.createElement('option');
-                    option.value = account.id;
-                    option.textContent = `${account.account_number} - ${account.account_name}`;
-                    select.appendChild(option);
-                });
-            } catch (error) {
-                console.error('Error loading accounts:', error);
-            }
+            const response = await fetch('/api/accounts');
+            const accounts = await response.json();
+            const select = document.getElementById('journalAccountSelect');
+            select.innerHTML = '<option value="">Select Account</option>';
+            accounts.forEach(account => {
+                const option = document.createElement('option');
+                option.value = account.id;
+                option.textContent = `${account.account_number} - ${account.account_name}`;
+                select.appendChild(option);
+            });
         }
 
-        // Load clients for select dropdown
         async function loadClientsSelect() {
-            try {
-                const response = await fetch('/api/clients');
-                const clients = await response.json();
-                const select = document.getElementById('clientSelect');
-                select.innerHTML = '<option value="">Select a client</option>';
-                clients.forEach(client => {
-                    const option = document.createElement('option');
-                    option.value = client.id;
-                    option.textContent = client.name;
-                    select.appendChild(option);
-                });
-            } catch (error) {
-                console.error('Error loading clients:', error);
-            }
+            const response = await fetch('/api/clients');
+            const clients = await response.json();
+            const select = document.getElementById('clientSelect');
+            select.innerHTML = '<option value="">Select a client</option>';
+            clients.forEach(client => {
+                const option = document.createElement('option');
+                option.value = client.id;
+                option.textContent = client.name;
+                select.appendChild(option);
+            });
         }
 
-        // Modal functions
-        function openAccountModal() {
-            document.getElementById('accountModal').classList.add('show');
-        }
+        function openAccountModal() { document.getElementById('accountModal').classList.add('show'); }
+        function closeAccountModal() { document.getElementById('accountModal').classList.remove('show'); }
+        function openJournalModal() { loadAccountsSelect(); document.getElementById('journalModal').classList.add('show'); }
+        function closeJournalModal() { document.getElementById('journalModal').classList.remove('show'); }
+        function openInvoiceModal() { loadClientsSelect(); document.getElementById('invoiceModal').classList.add('show'); }
+        function closeInvoiceModal() { document.getElementById('invoiceModal').classList.remove('show'); }
+        function openClientModal() { document.getElementById('clientModal').classList.add('show'); }
+        function closeClientModal() { document.getElementById('clientModal').classList.remove('show'); }
+        function openPaymentModal(invoiceId) { currentInvoiceId = invoiceId; document.getElementById('paymentModal').classList.add('show'); }
+        function closePaymentModal() { document.getElementById('paymentModal').classList.remove('show'); }
 
-        function closeAccountModal() {
-            document.getElementById('accountModal').classList.remove('show');
-        }
-
-        function openJournalModal() {
-            loadAccountsSelect();
-            document.getElementById('journalModal').classList.add('show');
-        }
-
-        function closeJournalModal() {
-            document.getElementById('journalModal').classList.remove('show');
-        }
-
-        function openInvoiceModal() {
-            loadClientsSelect();
-            document.getElementById('invoiceModal').classList.add('show');
-        }
-
-        function closeInvoiceModal() {
-            document.getElementById('invoiceModal').classList.remove('show');
-        }
-
-        function openClientModal() {
-            document.getElementById('clientModal').classList.add('show');
-        }
-
-        function closeClientModal() {
-            document.getElementById('clientModal').classList.remove('show');
-        }
-
-        function openPaymentModal(invoiceId) {
-            currentInvoiceId = invoiceId;
-            document.getElementById('paymentModal').classList.add('show');
-        }
-
-        function closePaymentModal() {
-            document.getElementById('paymentModal').classList.remove('show');
-        }
-
-        // Save account
         async function saveAccount(e) {
             e.preventDefault();
-            const accountData = {
+            const data = {
                 account_number: document.getElementById('accountNumber').value,
                 account_name: document.getElementById('accountName').value,
                 account_type: document.getElementById('accountType').value,
                 description: document.getElementById('accountDescription').value
             };
-
-            try {
-                const response = await fetch('/api/accounts', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(accountData)
-                });
-                if (response.ok) {
-                    alert('Account added successfully!');
-                    closeAccountModal();
-                    loadAccounts();
-                    loadDashboard();
-                }
-            } catch (error) {
-                console.error('Error adding account:', error);
-                alert('Error adding account');
-            }
+            const response = await fetch('/api/accounts', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+            if (response.ok) { alert('Account added!'); closeAccountModal(); loadAccounts(); loadDashboard(); }
         }
 
-        // Save journal entry
         async function saveJournalEntry(e) {
             e.preventDefault();
             const debit = parseFloat(document.getElementById('journalDebit').value || 0);
             const credit = parseFloat(document.getElementById('journalCredit').value || 0);
-            
-            if (debit === 0 && credit === 0) {
-                alert('Please enter either a debit or credit amount');
-                return;
-            }
-            
-            const entryData = {
+            if (debit === 0 && credit === 0) { alert('Enter debit or credit'); return; }
+            const data = {
                 account_id: parseInt(document.getElementById('journalAccountSelect').value),
                 debit: debit,
                 credit: credit,
                 description: document.getElementById('journalDescription').value,
                 reference: document.getElementById('journalReference').value
             };
-
-            try {
-                const response = await fetch('/api/journal-entries', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(entryData)
-                });
-                if (response.ok) {
-                    alert('Journal entry created successfully!');
-                    closeJournalModal();
-                    loadJournalEntries();
-                    loadAccounts();
-                    loadDashboard();
-                }
-            } catch (error) {
-                console.error('Error creating journal entry:', error);
-                alert('Error creating journal entry');
-            }
+            const response = await fetch('/api/journal-entries', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+            if (response.ok) { alert('Entry created!'); closeJournalModal(); loadJournalEntries(); loadTrialBalance(); loadDashboard(); }
         }
 
-        // Save invoice
         async function saveInvoice(e) {
             e.preventDefault();
-            const invoiceData = {
+            const data = {
                 invoice_number: document.getElementById('invoiceNumber').value,
                 client_id: parseInt(document.getElementById('clientSelect').value),
                 amount: parseFloat(document.getElementById('invoiceAmount').value),
                 description: document.getElementById('invoiceDescription').value,
                 due_date: document.getElementById('invoiceDueDate').value || null
             };
-
-            try {
-                const response = await fetch('/api/invoices', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(invoiceData)
-                });
-                if (response.ok) {
-                    alert('Invoice created successfully!');
-                    closeInvoiceModal();
-                    loadInvoices();
-                    loadDashboard();
-                }
-            } catch (error) {
-                console.error('Error creating invoice:', error);
-                alert('Error creating invoice');
-            }
+            const response = await fetch('/api/invoices', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+            if (response.ok) { alert('Invoice created!'); closeInvoiceModal(); loadInvoices(); loadDashboard(); }
         }
 
-        // Save client
         async function saveClient(e) {
             e.preventDefault();
-            const clientData = {
+            const data = {
                 name: document.getElementById('clientName').value,
                 email: document.getElementById('clientEmail').value,
                 phone: document.getElementById('clientPhone').value,
                 address: document.getElementById('clientAddress').value
             };
-
-            try {
-                const response = await fetch('/api/clients', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(clientData)
-                });
-                if (response.ok) {
-                    alert('Client added successfully!');
-                    closeClientModal();
-                    loadClients();
-                    loadDashboard();
-                }
-            } catch (error) {
-                console.error('Error adding client:', error);
-                alert('Error adding client');
-            }
+            const response = await fetch('/api/clients', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+            if (response.ok) { alert('Client added!'); closeClientModal(); loadClients(); loadDashboard(); }
         }
 
-        // Save payment
         async function savePayment(e) {
             e.preventDefault();
-            const paymentData = {
+            const data = {
                 invoice_id: currentInvoiceId,
                 amount: parseFloat(document.getElementById('paymentAmount').value),
                 payment_method: document.getElementById('paymentMethod').value,
                 notes: document.getElementById('paymentNotes').value
             };
+            const response = await fetch('/api/payments', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+            if (response.ok) { alert('Payment recorded!'); closePaymentModal(); loadInvoices(); loadDashboard(); }
+        }
 
-            try {
-                const response = await fetch('/api/payments', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(paymentData)
-                });
-                if (response.ok) {
-                    alert('Payment recorded successfully!');
-                    closePaymentModal();
-                    loadInvoices();
-                    loadDashboard();
-                }
-            } catch (error) {
-                console.error('Error recording payment:', error);
-                alert('Error recording payment');
+        async function deleteAccount(id) {
+            if (confirm('Delete account?')) {
+                const response = await fetch(`/api/accounts/${id}`, { method: 'DELETE' });
+                if (response.ok) { alert('Deleted!'); loadAccounts(); loadDashboard(); }
             }
         }
 
-        // Delete functions
-        async function deleteAccount(accountId) {
-            if (confirm('Are you sure you want to delete this account?')) {
-                try {
-                    const response = await fetch(`/api/accounts/${accountId}`, {
-                        method: 'DELETE'
-                    });
-                    if (response.ok) {
-                        alert('Account deleted successfully!');
-                        loadAccounts();
-                        loadDashboard();
-                    }
-                } catch (error) {
-                    console.error('Error deleting account:', error);
-                    alert('Error deleting account');
-                }
+        async function deleteClient(id) {
+            if (confirm('Delete client?')) {
+                const response = await fetch(`/api/clients/${id}`, { method: 'DELETE' });
+                if (response.ok) { alert('Deleted!'); loadClients(); loadDashboard(); }
             }
         }
 
-        async function deleteClient(clientId) {
-            if (confirm('Are you sure you want to delete this client?')) {
-                try {
-                    const response = await fetch(`/api/clients/${clientId}`, {
-                        method: 'DELETE'
-                    });
-                    if (response.ok) {
-                        alert('Client deleted successfully!');
-                        loadClients();
-                        loadDashboard();
-                    }
-                } catch (error) {
-                    console.error('Error deleting client:', error);
-                    alert('Error deleting client');
-                }
-            }
-        }
-
-        // Chat functions
         async function sendChatMessage() {
             const input = document.getElementById('chatInput');
             const message = input.value.trim();
-            
             if (!message) return;
-
-            addChatMessage(message, 'user');
+            document.getElementById('chatMessages').innerHTML += `<div style="margin-bottom: 10px; text-align: right;"><div style="display: inline-block; background: #667eea; color: white; padding: 8px 12px; border-radius: 8px; max-width: 70%;">${message}</div></div>`;
             input.value = '';
-
-            try {
-                const response = await fetch('/api/chat', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message })
-                });
-                const data = await response.json();
-                addChatMessage(data.response, 'assistant');
-            } catch (error) {
-                console.error('Error sending chat message:', error);
-                addChatMessage('Sorry, I encountered an error processing your request.', 'assistant');
-            }
+            const response = await fetch('/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message }) });
+            const data = await response.json();
+            document.getElementById('chatMessages').innerHTML += `<div style="margin-bottom: 10px;"><div style="display: inline-block; background: #e9ecef; color: #333; padding: 8px 12px; border-radius: 8px; max-width: 70%;">${data.response}</div></div>`;
+            document.getElementById('chatMessages').scrollTop = document.getElementById('chatMessages').scrollHeight;
         }
 
-        function addChatMessage(text, sender) {
-            const messagesDiv = document.getElementById('chatMessages');
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${sender}`;
-            messageDiv.innerHTML = `<div class="message-content">${text}</div>`;
-            messagesDiv.appendChild(messageDiv);
-            messagesDiv.scrollTop = messagesDiv.scrollHeight;
-        }
-
-        // Event listeners
-        document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('chatInput')?.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    sendChatMessage();
-                }
+        document.getElementById('chatInput')?.addEventListener('keypress', (e) => { if (e.key === 'Enter') sendChatMessage(); });
+        
+        function exportTrialBalance() {
+            const table = document.getElementById('trialBalanceTable');
+            const csv = 'Account #,Account Name,Type,Debit,Credit\n';
+            let data = csv;
+            table.querySelectorAll('tr').forEach(row => {
+                const cells = row.querySelectorAll('td');
+                data += Array.from(cells).map(cell => cell.textContent).join(',') + '\n';
             });
-            loadDashboard();
-        });
+            downloadCSV(data, 'trial-balance.csv');
+        }
+
+        function exportIncomeStatement() { downloadHTML('incomeStatementContent', 'income-statement.html'); }
+        function exportBalanceSheet() { downloadHTML('balanceSheetContent', 'balance-sheet.html'); }
+
+        function downloadCSV(data, filename) {
+            const blob = new Blob([data], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.click();
+        }
+
+        function downloadHTML(elementId, filename) {
+            const html = document.getElementById(elementId).innerHTML;
+            const blob = new Blob(['<html><body>' + html + '</body></html>'], { type: 'text/html' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.click();
+        }
+
+        loadDashboard();
     </script>
 </body>
 </html>

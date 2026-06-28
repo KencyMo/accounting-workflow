@@ -238,6 +238,37 @@ def account_journal_entries(account_id):
     entries = JournalEntry.query.filter_by(account_id=account_id).all()
     return jsonify([e.to_dict() for e in entries])
 
+# Trial Balance Route
+@app.route('/api/trial-balance')
+def trial_balance():
+    accounts_list = ChartOfAccounts.query.all()
+    trial_balance_data = []
+    total_debits = 0
+    total_credits = 0
+    
+    for account in accounts_list:
+        account_data = account.to_dict()
+        
+        # Asset, Expense accounts increase with debit
+        # Liability, Equity, Revenue accounts increase with credit
+        if account.account_type in ['Asset', 'Expense']:
+            account_data['debit'] = max(0, account.balance)
+            account_data['credit'] = max(0, -account.balance)
+        else:  # Liability, Equity, Revenue
+            account_data['debit'] = max(0, -account.balance)
+            account_data['credit'] = max(0, account.balance)
+        
+        total_debits += account_data['debit']
+        total_credits += account_data['credit']
+        trial_balance_data.append(account_data)
+    
+    return jsonify({
+        'accounts': trial_balance_data,
+        'total_debits': total_debits,
+        'total_credits': total_credits,
+        'is_balanced': abs(total_debits - total_credits) < 0.01
+    })
+
 # General Ledger Route
 @app.route('/api/general-ledger')
 def general_ledger():
@@ -250,6 +281,49 @@ def general_ledger():
         ledger.append(account_data)
     
     return jsonify(ledger)
+
+# Income Statement Route
+@app.route('/api/income-statement')
+def income_statement():
+    accounts_list = ChartOfAccounts.query.all()
+    
+    total_revenue = sum(a.balance for a in accounts_list if a.account_type == 'Revenue')
+    total_expenses = sum(a.balance for a in accounts_list if a.account_type == 'Expense')
+    net_income = total_revenue - total_expenses
+    
+    revenue_accounts = [a.to_dict() for a in accounts_list if a.account_type == 'Revenue']
+    expense_accounts = [a.to_dict() for a in accounts_list if a.account_type == 'Expense']
+    
+    return jsonify({
+        'revenue_accounts': revenue_accounts,
+        'expense_accounts': expense_accounts,
+        'total_revenue': total_revenue,
+        'total_expenses': total_expenses,
+        'net_income': net_income
+    })
+
+# Balance Sheet Route
+@app.route('/api/balance-sheet')
+def balance_sheet():
+    accounts_list = ChartOfAccounts.query.all()
+    
+    assets = [a.to_dict() for a in accounts_list if a.account_type == 'Asset']
+    liabilities = [a.to_dict() for a in accounts_list if a.account_type == 'Liability']
+    equity = [a.to_dict() for a in accounts_list if a.account_type == 'Equity']
+    
+    total_assets = sum(a['balance'] for a in assets)
+    total_liabilities = sum(a['balance'] for a in liabilities)
+    total_equity = sum(a['balance'] for a in equity)
+    
+    return jsonify({
+        'assets': assets,
+        'liabilities': liabilities,
+        'equity': equity,
+        'total_assets': total_assets,
+        'total_liabilities': total_liabilities,
+        'total_equity': total_equity,
+        'is_balanced': abs((total_liabilities + total_equity) - total_assets) < 0.01
+    })
 
 # Client Routes
 @app.route('/api/clients', methods=['GET', 'POST'])
